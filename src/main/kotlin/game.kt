@@ -1,6 +1,7 @@
 package net.clueonic.stranded
 
 import android.app.Activity
+import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.os.Bundle
@@ -9,20 +10,13 @@ import javax.microedition.khronos.opengles.GL10
 
 class Game : Activity() {
 
-    protected var view: GLSurfaceView? = null
+    protected var view: Game.View? = null
     protected val renderer = Game.Renderer()
 
     override protected fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        view = GLSurfaceView(this)
-        if (BuildConfig.DEBUG) {
-            view?.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR or GLSurfaceView.DEBUG_LOG_GL_CALLS)
-        }
-        view?.setEGLContextClientVersion(2) // OpenGL ES 2.0
-        view?.setEGLConfigChooser(/* needDepth= */false)
-        view?.setRenderer(renderer)
-        view?.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY)
+        view = Game.View(this)
     }
 
     override fun onPause() {
@@ -33,6 +27,18 @@ class Game : Activity() {
     override fun onResume() {
         super.onResume()
         view?.onResume()
+    }
+
+    class View(context: Game) : GLSurfaceView(context) {
+        init {
+            if (BuildConfig.DEBUG) {
+                setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR or GLSurfaceView.DEBUG_LOG_GL_CALLS)
+            }
+            setEGLContextClientVersion(2) // OpenGL ES 2.0
+            setEGLConfigChooser(/* needDepth= */false)
+            setRenderer(context.renderer)
+            setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY)
+        }
     }
 
     class Renderer : GLSurfaceView.Renderer {
