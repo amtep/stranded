@@ -22,4 +22,10 @@ class GameActivity : Activity() {
         view = GameLayout().setContentView(this)
         updateGameView(view, gameModel)
     }
+
+    fun advanceOneYear() {
+        gameModel.population.ageOneYear()
+        gameModel.year += 1
+        updateGameView(view, gameModel)
+    }
 }

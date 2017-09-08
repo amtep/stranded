@@ -40,5 +40,4 @@ dependencies {
     compile 'org.jetbrains.anko:anko-commons:0.10.0'
     compile 'org.jetbrains.anko:anko-sdk23:0.10.0'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.10.0'
-
 }

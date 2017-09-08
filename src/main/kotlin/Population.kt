@@ -58,4 +58,41 @@ class Population() {
 
         return "Population: ${total} (${children} children, ${adults} adults)"
     }
+
+    fun ageOneYear() {
+        val newCohorts = cohorts.flatMap { (dem, size) ->
+            listOf (
+                Pair(
+                    Demographic(dem.age + 1, dem.childBearing),
+                    size - binomialChance(naturalDeathP(dem.age), size)
+                )
+            )
+        }
+        cohorts.clear()
+        for ((dem, size) in newCohorts) {
+            addPopulation(dem, size)
+        }
+    }
+
+    fun naturalDeathP(age: Int) = when (age) {
+        0 -> 0.005
+        in 1..5 -> 0.0003
+        in 6..12 -> 0.0001
+        in 13..18 -> 0.0004
+        in 19..30 -> 0.001
+        in 31..42 -> 0.002
+        in 43..46 -> 0.003
+        in 47..49 -> 0.004
+        in 50..55 -> 0.006
+        in 56..64 -> 0.01
+        in 65..70 -> 0.02
+        in 71..75 -> 0.03
+        in 76..80 -> 0.05
+        in 81..85 -> 0.07
+        in 86..90 -> 0.13
+        in 91..95 -> 0.2
+        in 96..99 -> 0.3
+        in 100..110 -> 0.4
+        else -> 0.5
+    }
 }
