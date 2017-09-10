@@ -24,7 +24,7 @@ class GameActivity : Activity() {
     }
 
     fun advanceOneYear() {
-        gameModel.population.ageOneYear()
+        gameModel.population = Population.yearOlder(gameModel.population)
         gameModel.year += 1
         updateGameView(view, gameModel)
     }
